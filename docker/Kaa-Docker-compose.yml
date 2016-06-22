@@ -1,0 +1,70 @@
+Kaa:
+  image: supermies/kaa
+  environment:
+  - CONTROL_ENABLED=true
+  - BOOTSTRAP_ENABLED=true
+  - OPERATIONS_ENABLED=true
+  - DATABASE=cassandra
+  - ZK_HOSTS=zk:2181
+  - CASSANDRA_HOSTS=Cassandra:9042
+  - MONGODB_HOSTS=mongodbhost:27017
+  - JDBC_HOST=postgreshost
+  - JDBC_PORT=5432
+  tty: true
+  stdin_open: true
+  ports:
+  - "8080:8080"
+  links:
+  - Cassandra
+  - zk
+  - mariadb
+  - mongodbhost
+services:
+  mariadb:
+    image: iotitude/mariadb
+    build:
+      context: ./mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 'maria'
+      MYSQL_DATABASE: 'kaa'
+      MYSQL_USER: 'sqladmin'
+      MYSQL_PASSWORD: 'admin'
+  Cassandra:
+    environment:
+      RANCHER_ENABLE: 'true'
+    labels:
+      io.rancher.container.pull_image: always
+    tty: true
+    image: pboos/rancher-cassandra:3.1
+    volumes:
+    - /var/lib/cassandra
+    stdin_open: true
+    ports:
+    - "9042:9042"
+    - "9160:9160"
+
+  zk:
+    environment:
+      CONFD_INTERVAL: '60'
+      JVMFLAGS: -Xmx512m -Xms512m
+    tty: true
+    image: rawmind/rancher-zk:3.4.6-1
+    volumes:
+    - /opt/zk/data
+    ports:
+    - "2181:2181"
+    links: 
+    - Cassandra
+    - mariadb
+    - mongodbhost
+#postgreshost:
+#  image: postgres
+#  expose:
+#  - "5432"
+#  environment:
+#  - POSTGRES_PASSWORD=admin
+#  - POSTGRES_DB=kaa
+  mongodbhost:
+    image: mongo
+    ports:
+    - "27017:27017"
