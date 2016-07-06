@@ -59,4 +59,4 @@ mariadb:
     MYSQL_USER: sqladmin
     MYSQL_PASSWORD: adminkadmin
   expose:
-- "3306"
+  - "3306"
