@@ -1,3 +1,7 @@
+.catalog
+  name: Kaa
+  version: 0.1
+  description: Testing Kaa catalog
 cassandra:
   scale: 1
   health_check:
