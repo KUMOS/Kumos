@@ -1,7 +1,16 @@
 .catalog
   name: Kaa
   version: 0.1
-  description: Testing Kaa catalog
+  description: |
+    Testing Kaa catalog.
+  uuid: kaa-0
+  questions:
+    - variable: "exo-scale"
+      description: "Number of exosphere nodes"
+      label: "Number of Exosphere Nodes:"
+      required: true
+      default: 1
+      type: "int"
 cassandra:
   scale: 1
   health_check:
