@@ -1,0 +1,62 @@
+cassandra:
+  ports:
+  - "9042:9042"
+  - "9160:9160"
+  environment:
+    RANCHER_ENABLE: 'true'
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: pboos/rancher-cassandra:3.1
+  volumes:
+  - /var/lib/cassandra
+  stdin_open: true
+Kaa:
+  ports:
+    - "22:22"
+    - "8080:8080"
+    - "9888:9888"
+    - "9889:9889"
+    - "9997:9997"
+    - "9999:9999"
+  #environment:
+  #  BOOTSTRAP_ENABLED: 'true'
+  #  CASSANDRA_HOSTS: Cassandra:9042
+  #  CONTROL_ENABLED: 'true'
+  #  DATABASE: cassandra
+  #  JDBC_HOST: mariadb
+  #  JDBC_PORT: 3306
+  #  MONGODB_HOSTS: mongodbhost:27017
+  #  OPERATIONS_ENABLED: 'true'
+  #  ZK_HOSTS: zookeeper:2181
+  labels:
+    io.rancher.container.pull_image: always
+  command: bash -c "/usr/bin/kaa-node start && while true; do sleep 1; done"
+  tty: true
+  image: supermies/kaa
+  links:
+  - mariadb
+  - cassandra:cassandra
+  - zookeeper
+  stdin_open: true
+zookeeper:
+  ports:
+  - 2181:2181/tcp
+  tty: true
+  hostname: zookeeper
+  image: supermies/zookeeper
+  links:
+  - mongodbhost:mongodbhost
+  - cassandra:cassandra
+  - mariadb
+  volumes:
+  - /opt/zk/data
+mariadb:
+  image: mariadb:5.5
+  environment:
+    MYSQL_ROOT_PASSWORD: maria
+    MYSQL_DATABASE: kaa
+    MYSQL_USER: sqladmin
+    MYSQL_PASSWORD: adminkadmin
+  expose:
+- "3306"
