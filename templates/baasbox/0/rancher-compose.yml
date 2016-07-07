@@ -1,3 +1,16 @@
+.catalog:
+  name: Baasbox
+  version: 0.1
+  description: |
+    Baasbox for IoTitude with separate data container.
+  uuid: baasbox-0
+  questions:
+    - variable: "exo-scale"
+      description: "Number of exosphere nodes"
+      label: "Number of Exosphere Nodes:"
+      required: true
+      default: 1
+      type: "int"
 baasbox:
   scale: 1
 baasbox-data:
