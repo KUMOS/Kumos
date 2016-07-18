@@ -38,9 +38,9 @@ Kaa:
   tty: true
   image: supermies/kaa
   links:
-  - mariadb
+  - mariadb:mariadb
   - cassandra:cassandra
-  - zookeeper
+  - zookeeper:zookeeper
   stdin_open: true
 zookeeper:
   ports:
