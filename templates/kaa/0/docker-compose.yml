@@ -32,6 +32,8 @@ Kaa:
   labels:
     io.rancher.container.pull_image: always
     io.rancher.sidekicks: cassandra
+    io.rancher.sidekicks: zookeeper
+    io.rancher.sidekicks: mariadb
   command: bash -c "/usr/bin/kaa-node start && while true; do sleep 1; done"
   tty: true
   image: supermies/kaa
