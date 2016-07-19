@@ -19,19 +19,19 @@ Kaa:
     - "9889:9889"
     - "9997:9997"
     - "9999:9999"
-  environment:
-    BOOTSTRAP_ENABLED: 'true'
-    CASSANDRA_HOSTS: Cassandra:9042
-    CONTROL_ENABLED: 'true'
-    DATABASE: cassandra
-    JDBC_HOST: mariadb
-    JDBC_PORT: 3306
-    MONGODB_HOSTS: mongodbhost:27017
-    OPERATIONS_ENABLED: 'true'
-    ZK_HOSTS: zookeeper:2181
+  #environment:
+  #  BOOTSTRAP_ENABLED: 'true'
+  #  CASSANDRA_HOSTS: Cassandra:9042
+  #  CONTROL_ENABLED: 'true'
+  #  DATABASE: cassandra
+  #  JDBC_HOST: mariadb
+  #  JDBC_PORT: 3306
+  #  MONGODB_HOSTS: mongodbhost:27017
+  #  OPERATIONS_ENABLED: 'true'
+  #  ZK_HOSTS: zookeeper:2181
   labels:
     io.rancher.container.pull_image: always
-    io.rancher.sidekicks: cassandra, zookeeper, mariadb
+    io.rancher.sidekicks: cassandra
   command: bash -c "/usr/bin/kaa-node start && while true; do sleep 1; done"
   tty: true
   image: supermies/kaa
