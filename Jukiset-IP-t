@@ -4,5 +4,5 @@ External IP addresses:
 
 Service         Internal IP         External IP
 Rancher         192.168.1.3         192.168.112.50
-Kaa             192.168.1.41        kaa.io
+Kaa             192.168.1.73        kaa.io
 Baasbox         192.168.1.52        baasbox.io
