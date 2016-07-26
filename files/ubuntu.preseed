@@ -479,20 +479,20 @@ d-i finish-install/reboot_in_progress note
 # packages and run commands in the target system.
 #d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh
 
-#d-i preseed/late_command string https://raw.githubusercontent.com/Supermies/Testata/master/DockerNA.sh
+#d-i preseed/late_command string https://raw.githubusercontent.com/KUMOS/Kumos/master/files/DockerNA.sh
 #d-i preseed/late_command string \
 #cd /target/etc/asd/; \
-#in-target wget https://raw.githubusercontent.com/Supermies/Testata/master/Docker.sh \
+#in-target wget https://raw.githubusercontent.com/KUMOS/Kumos/master/files/DockerNA.sh \
 #in-target sh Docker.sh;
 #d-i preseed/late_command string cp -a /preseed/DockerNA.sh /target/home/asd/; \
 #chmod 777 /home/asd/DockerNA.sh; \
 #in-target /bin/sh /home/asd/Docker.sh; \
 #d-i preseed/late_command string \
-#in-target wget /tmp/ https://raw.githubusercontent.com/Supermies/Testata/master/DockerNA.sh; \
+#in-target wget /tmp/ https://raw.githubusercontent.com/KUMOS/Kumos/master/files/DockerNA.sh; \
 #in-target /bin/chmod 777 /tmp/DockerNA.sh; \
 #in-target /tmp/DockerNA.sh;
 d-i preseed/late_command string \
     cd /target; \
-    wget --no-check-certificate https://raw.githubusercontent.com/Supermies/Testata/master/DockerNA.sh; \
+    wget --no-check-certificate https://raw.githubusercontent.com/KUMOS/Kumos/master/files/DockerNA.sh; \
     chmod +x ./DockerNA.sh; \
     chroot ./ ./DockerNA.sh
