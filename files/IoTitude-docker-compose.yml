@@ -1,4 +1,4 @@
-This file contains the used docker-composes during the Project. Some of them works and some may not work. Kaa will not work
+This file contains the used docker composes during the Project. Some of them works and some may not work. Kaa will not work
 correctly with Cassandra, not with either of these composes.
 
 #-----------------------------------------------------------------#
@@ -67,7 +67,7 @@ mariadb:
   - "3306"
 #-----------------------------------------------------------------#
   
-One container Kaa is found below:
+# One container Kaa is found below:
 #-----------------------------------------------------------------#
 kaa:
   ports:
@@ -94,4 +94,70 @@ baasbox-data:
   labels:
     io.rancher.container.start_once: 'true'
   image: iotitude/baasbox-data
+#-----------------------------------------------------------------#
+
+#-----------------------------------------------------------------#
+# Jenkins compose
+jenkinsmaster:
+  ports:
+  - 40000:40000/tcp
+  - 49001:8080/tcp
+  labels:
+    io.rancher.sidekicks: jenkinsdata,jenkinsslave
+  image: iotitude/jenkins-master
+  volumes_from:
+  - jenkinsdata
+jenkinsdata:
+  labels:
+    io.rancher.container.start_once: 'true'
+  image: iotitude/jenkins-data
+jenkinsslave:
+  image: iotitude/jenkins-slave
+  volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+  volumes_from:
+  - jenkinsdata
+jenkinsnginx:
+  ports:
+  - 8088:8088/tcp
+  image: iotitude/jenkins-nginx
+  links:
+  - jenkinsmaster:jenkins-master
+#-----------------------------------------------------------------#
+
+#-----------------------------------------------------------------#
+# This is the compose for Cassandra that was used for data generation
+Cassandra:
+  ports:
+  - 9042:9042/tcp
+  - 9160:9160/tcp
+  environment:
+    RANCHER_ENABLE: 'true'
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: pboos/rancher-cassandra
+  volumes:
+  - /var/lib/cassandra
+  stdin_open: true
+#-----------------------------------------------------------------#
+
+#-----------------------------------------------------------------#
+# Compose for Portal service:
+portal:
+  ports:
+  - 3000:3000/tcp
+  - 3001:3001/tcp
+  labels:
+    io.rancher.scheduler.affinity:host_label: portal=1
+  image: iotitude/portal
+#-----------------------------------------------------------------#
+
+#-----------------------------------------------------------------#
+# Zeppelin compose used in the Project. This one needs one more .jar file to work, which it does not have.
+# Possible file needed is 'guava-16.0.1.jar'.
+zeppelin:
+  ports:
+  - 8080:8080/tcp
+  image: dylanmei/zeppelin:0.6.0-stable
 #-----------------------------------------------------------------#
